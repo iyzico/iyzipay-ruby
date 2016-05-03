@@ -10,15 +10,7 @@ RSpec.describe 'Iyzipay' do
     @options.base_url = 'https://api.iyzipay.com'
   end
 
-  it 'should create payment with physical and virtual item for market place' do
-    payment_card = {
-        cardHolderName: 'John Doe',
-        cardNumber: '5528790000000008',
-        expireYear: '2030',
-        expireMonth: '12',
-        cvc: '123',
-        registerCard: 0
-    }
+  it 'should initialize checkout form' do
     buyer = {
         id: 'BY789',
         name: 'John',
@@ -76,20 +68,34 @@ RSpec.describe 'Iyzipay' do
         locale: 'tr',
         conversationId: '123456789',
         price: '1.0',
-        paidPrice: '1.1',
-        installment: 1,
-        paymentChannel: 'WEB',
+        paidPrice: '1.0',
         basketId: 'B67832',
         paymentGroup: 'PRODUCT',
-        paymentCard: payment_card,
+        callbackUrl: 'https://www.merchant.com/callback',
         buyer: buyer,
         billingAddress: address,
         shippingAddress: address,
         basketItems: [item1, item2, item3]
     }
-    payment = Iyzipay::Model::Payment.new.create(request, @options)
+    checkout_form_initialize = Iyzipay::Model::CheckoutFormInitialize.new.create(request, @options)
+
     begin
-      $stderr.puts payment.inspect
+      $stderr.puts checkout_form_initialize.inspect
+    rescue
+      $stderr.puts 'oops'
+      raise
+    end
+  end
+
+  it 'should retrieve checkout form payment' do
+    request = {
+        locale: 'tr',
+        conversationId: '123456789',
+        token: 'b4d8088e-ce35-452d-94c9-d5bd9f385557'
+    }
+    checkout_form_payment = Iyzipay::Model::CheckoutForm.new.retrieve(request, @options)
+    begin
+      $stderr.puts checkout_form_payment.inspect
     rescue
       $stderr.puts 'oops'
       raise

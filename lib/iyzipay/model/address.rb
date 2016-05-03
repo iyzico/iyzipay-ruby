@@ -1,16 +1,16 @@
 module Iyzipay
   module Model
-    class Address < PkiBuilder
-      ATTRIBUTES_ORDER = %w{
-        address
-        zipCode
-        contactName
-        city
-        country
-      }.freeze
-
-      def initialize(values = {})
-        super(values, ATTRIBUTES_ORDER)
+    class Address
+      def self.to_pki_string(request)
+        unless request.nil?
+          PkiBuilder.new.
+              append(:address, request[:address]).
+              append(:zipCode, request[:zipCode]).
+              append(:contactName, request[:contactName]).
+              append(:city, request[:city]).
+              append(:country, request[:country]).
+              get_request_string
+        end
       end
     end
   end

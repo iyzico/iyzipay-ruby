@@ -1,84 +1,101 @@
 module Iyzipay
   class PkiBuilder
-    DEFAULT_ADD_METHOD = 'add'
+    attr_accessor :request_string
 
-    attr_accessor :params, :ordered_keys
-
-    def initialize(values = {}, ordered_keys = nil, type_cast = {})
-      @params = {}
-      assign_params(values, type_cast)
-      @ordered_keys = ordered_keys
+    def initialize(request_string = '')
+      @request_string = request_string
     end
 
-    def request_string
-      str = prepare_request_string
-      "[#{str}]" unless str.empty?
-    end
+    def append_super(super_request_string)
+      unless super_request_string.nil?
 
-    def prepare_request_string
-      ordered_params.join(',')
-    end
-
-    def ordered_params
-      orderer.map do |key|
-        convert_str(key, params[key]) if params[key].present?
-      end.reject(&:nil?)
-    end
-
-    def add_price(key, value)
-      add(key, value.to_f.round(2)) if value.to_f != 0
-    end
-
-    def add_array(key, value)
-      add(key, "[#{value.join(', ')}]") if value.present?
-    end
-
-    def add_date(key, value)
-      add(key, parse_date(value).strftime('%Y-%m-%d %H:%M:%S')) if value.present?
-    end
-
-    def add_buyer(key, value)
-      add(key, Model::Buyer.new(value).request_string)
-    end
-
-    def add_address(key, value)
-      add(key, Model::Address.new(value).request_string)
-    end
-
-    def add_basket_items(key, value)
-      add_array(key, Model::BasketItems.new(value).request_array)
-    end
-
-    def add_payment_card(key, value)
-      add(key, Model::PaymentCard.new(value).request_string)
-    end
-
-    def add(key, value)
-      params[key] = value.to_s unless value.to_s.empty?
-    end
-
-    def convert_str(key, value)
-      "#{key}=#{value}"
-    end
-
-    def parse_date(value)
-      value.is_a?(String) ? DateTime.parse(value) : value
-    end
-
-    private
-
-    def orderer
-      ordered_keys || params.keys
-    end
-
-    def assign_params(values, type_cast)
-      values.each_pair do |key, value|
-        send(adder(type_cast[key.to_sym]), key, value)
+        s = super_request_string[1..-2]
+        if s.length > 0
+          result = @request_string + s
+          result << ','
+        end
+        @request_string = result
       end
+      self
     end
 
-    def adder(add_method)
-      add_method || DEFAULT_ADD_METHOD
+    def append(key, value = nil)
+      unless value.nil?
+        append_key_value(key, value)
+      end
+      self
     end
+
+    def append_price(key, value = nil)
+      unless value.nil?
+        append_key_value(key, format_price(value))
+      end
+      self
+    end
+
+    def append_array(key, array = nil)
+      unless array.nil?
+        appended_value = ''
+        array.each do |value|
+          appended_value << value
+          appended_value << ', '
+        end
+      end
+      append_key_value_array(key, appended_value)
+
+      self
+    end
+
+    def append_key_value(key, value)
+      @request_string = "#{@request_string}#{key}=#{value}," unless value.nil?
+    end
+
+    def append_key_value_array(key, value)
+      unless value.nil?
+        sub = ', '
+        value = value.gsub(/[#{sub}]+$/, '')
+        @request_string = "#{@request_string}#{key}=[#{value}],"
+      end
+
+      self
+    end
+
+    def append_prefix
+      @request_string = "[#{@request_string}]"
+    end
+
+    def remove_trailing_comma
+      sub = ','
+      @request_string = @request_string.gsub(/[#{sub}]+$/, '')
+    end
+
+    def get_request_string
+      remove_trailing_comma
+      append_prefix
+
+      @request_string
+    end
+
+    def format_price(price)
+      unless price.include? '.'
+        price = price+'.0'
+      end
+      sub_str_index = 0
+      price_reversed = price.reverse
+      i=0
+      while i < price.size do
+        if price_reversed[i] == '0'
+          sub_str_index = i + 1
+        elsif price_reversed[i] == '.'
+          price_reversed = '0' + price_reversed
+          break
+        else
+          break
+        end
+        i+=1
+      end
+      (price_reversed[sub_str_index..-1]).reverse
+    end
+
   end
 end

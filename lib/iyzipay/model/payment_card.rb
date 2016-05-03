@@ -1,25 +1,22 @@
 module Iyzipay
   module Model
-    module PkiBuilders
-      class PaymentCard < PkiBuilder
-        ATTRIBUTES_ORDER = %w{
-        locale
-        conversationId
-        cardHolderName
-        cardNumber
-        expireYear
-        expireMonth
-        cvc
-        registerCard
-        cardAlias
-        cardToken
-        cardUserKey
-      }
-
-        def initialize(values = {})
-          super(values, ATTRIBUTES_ORDER)
+    class PaymentCard
+      def self.to_pki_string(request)
+        unless request.nil?
+          PkiBuilder.new.
+              append(:cardHolderName, request[:cardHolderName]).
+              append(:cardNumber, request[:cardNumber]).
+              append(:expireYear, request[:expireYear]).
+              append(:expireMonth, request[:expireMonth]).
+              append(:cvc, request[:cvc]).
+              append(:registerCard, request[:registerCard]).
+              append(:cardAlias, request[:cardAlias]).
+              append(:cardToken, request[:cardToken]).
+              append(:cardUserKey, request[:cardUserKey]).
+              get_request_string
         end
       end
     end
   end
 end
+
