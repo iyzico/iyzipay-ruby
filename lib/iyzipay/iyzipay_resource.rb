@@ -7,19 +7,13 @@ module Iyzipay
     RANDOM_STRING_SIZE = 8
     RANDOM_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
 
-    attr_accessor :configuration
-
-    def initialize(client_configuration)
-      @configuration = client_configuration
-    end
-
-    def get_http_header(request = nil, authorize_request = true)
+    def get_http_header(pki_string = nil, options = nil, authorize_request = true)
       header = {:accept => 'application/json',
                 :'content-type' => 'application/json'}
 
       if authorize_request
-        random_header_value = self.random_string(RANDOM_STRING_SIZE)
-        header[:'Authorization'] = "#{prepare_authorization_string(request, random_header_value)}"
+        random_header_value = random_string(RANDOM_STRING_SIZE)
+        header[:'Authorization'] = "#{prepare_authorization_string(pki_string, random_header_value, options)}"
         header[:'x-iyzi-rnd'] = "#{random_header_value}"
       end
 
@@ -30,9 +24,9 @@ module Iyzipay
       get_http_header(nil, false)
     end
 
-    def prepare_authorization_string(request, random_header_value)
-      hash_digest = calculate_hash(request, random_header_value)
-      self.format_header_string(@configuration.api_key, hash_digest)
+    def prepare_authorization_string(pki_string, random_header_value, options)
+      hash_digest = calculate_hash(pki_string, random_header_value, options)
+      format_header_string(options.api_key, hash_digest)
     end
 
     def json_decode(response, raw_result)
@@ -40,20 +34,26 @@ module Iyzipay
       response.from_json(json_result)
     end
 
-    def calculate_hash(request, random_header_value)
-      Digest::SHA1.base64digest("#{@configuration.api_key}#{random_header_value}#{@configuration.secret_key}#{request.to_PKI_request_string}")
+    def calculate_hash(pki_string, random_header_value, options)
+      Digest::SHA1.base64digest("#{options.api_key}#{random_header_value}#{options.secret_key}#{pki_string}")
     end
 
-    def self.format_header_string(*args)
+    def format_header_string(*args)
       sprintf(AUTHORIZATION_HEADER_STRING, *args)
     end
 
-    def self.random_string(string_length)
+    def random_string(string_length)
       random_string = ''
-      string_length.times do |idx|
+      string_length.times do
         random_string << RANDOM_CHARS.split('').sample
       end
       random_string
+    end
+
+    def to_pki_string(request)
+      PkiBuilder.new.append(:locale, request[:locale]).
+          append(:conversationId, request[:conversationId]).
+          get_request_string
     end
   end
 end

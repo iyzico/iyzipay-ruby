@@ -1,48 +1,16 @@
-# iyzipay-ruby
+# coding: utf-8
 
-[![Build Status](https://travis-ci.org/iyzico/iyzipay-ruby.svg?branch=master)](https://travis-ci.org/iyzico/iyzipay-ruby)
+require_relative 'spec_helper'
 
-You can sign up for an iyzico account at https://iyzico.com
+RSpec.describe 'Iyzipay' do
+  before :all do
+    @options = Iyzipay::Options.new
+    @options.api_key = 'your api key'
+    @options.secret_key = 'your secret key'
+    @options.base_url = 'https://sandbox-api.iyzipay.com'
+  end
 
-# Requirements
-
-* Ruby 1.9.3 or newer
-* rest-client
-
-# Installation
-
-    gem install iyzipay
-
-## Bundler
-
-``` ruby
-source 'https://rubygems.org'
-
-gem 'rails'
-gem 'iyzipay'
-
-```
-
-# Usage
-
-```ruby
-
-before :all do
-  @options = Iyzipay::Options.new
-  @options.api_key = 'your api key'
-  @options.secret_key = 'your secret key'
-  @options.base_url = 'https://sandbox-api.iyzipay.com'
-end
-
-it 'should create payment with physical and virtual item for listing or subscription' do
-    payment_card = {
-        cardHolderName: 'John Doe',
-        cardNumber: '5528790000000008',
-        expireYear: '2030',
-        expireMonth: '12',
-        cvc: '123',
-        registerCard: 0
-    }
+  it 'should initialize checkout form' do
     buyer = {
         id: 'BY789',
         name: 'John',
@@ -73,6 +41,8 @@ it 'should create payment with physical and virtual item for listing or subscrip
         category2: 'Accessories',
         itemType: Iyzipay::Model::BasketItemType::PHYSICAL,
         price: '0.3',
+        subMerchantKey: 'sub merchant key',
+        subMerchantPrice: '0.27'
     }
     item2 = {
         id: 'BI102',
@@ -81,6 +51,8 @@ it 'should create payment with physical and virtual item for listing or subscrip
         category2: 'Online Game Items',
         itemType: Iyzipay::Model::BasketItemType::VIRTUAL,
         price: '0.5',
+        subMerchantKey: 'sub merchant key',
+        subMerchantPrice: '0.42'
     }
     item3 = {
         id: 'BI103',
@@ -89,35 +61,48 @@ it 'should create payment with physical and virtual item for listing or subscrip
         category2: 'Usb / Cable',
         itemType: Iyzipay::Model::BasketItemType::PHYSICAL,
         price: '0.2',
+        subMerchantKey: 'sub merchant key',
+        subMerchantPrice: '0.18'
     }
     request = {
         locale: 'tr',
         conversationId: '123456789',
         price: '1.0',
-        paidPrice: '1.1',
-        installment: 1,
-        paymentChannel: Iyzipay::Model::PaymentChannel::WEB,
+        paidPrice: '1.0',
         basketId: 'B67832',
-        paymentGroup: Iyzipay::Model::PaymentGroup::SUBSCRIPTION,
+        paymentGroup: Iyzipay::Model::PaymentGroup::PRODUCT,
+        callbackUrl: 'https://www.merchant.com/callback',
         currency: Iyzipay::Model::Currency::TRY,
-        paymentCard: payment_card,
         buyer: buyer,
         billingAddress: address,
         shippingAddress: address,
         basketItems: [item1, item2, item3]
     }
-    payment = Iyzipay::Model::Payment.new.create(request, @options)
+    checkout_form_initialize = Iyzipay::Model::CheckoutFormInitialize.new.create(request, @options)
+
     begin
-      $stderr.puts payment.inspect
+      $stderr.puts checkout_form_initialize.inspect
     rescue
       $stderr.puts 'oops'
       raise
     end
   end
-```
-See other samples under iyzipay-ruby/spec module.
 
-Testing
-=======
+  it 'should retrieve checkout form payment' do
+    request = {
+        locale: 'tr',
+        conversationId: '123456789',
+        token: 'b4d8088e-ce35-452d-94c9-d5bd9f385557'
+    }
+    checkout_form_payment = Iyzipay::Model::CheckoutForm.new.retrieve(request, @options)
+    begin
+      $stderr.puts checkout_form_payment.inspect
+    rescue
+      $stderr.puts 'oops'
+      raise
+    end
+  end
 
-You can run specs with RSpec under spec module.
+  after :each do
+  end
+end

@@ -1,0 +1,16 @@
+language: ruby
+ruby:
+- '1.9'
+- '2.0'
+- '2.1'
+- '2.2'
+- '2.3'
+deploy:
+  provider: rubygems
+  api_key:
+    secure: oyTMpNUPMM2ExVpmXHCHrMc04aCgMcp0gJwhcDHlTyy7HpJBHZS3abBUCOxQOtBj7RKir7BkMFH+XoQz2OoIt//2+S9yBDTf1Nt15KkcXvJq9fIXSiHgiqnQnnZTuE5M2LE287lqO3mGXcJvTaosxO6Wh9K6K6pA0nSOt7DE4foG53MfjX4no1aazrlIDGqZYO4Ml8cHqph02Kp2U5N/+f5V3EfhYp9QshGa3AeUx+gIcXaIbh2v9fz1mEYA3qPFL4Yi9c36p9tqwhPe62pEYBmo9pDziSShIoGZiWMAKFS8qJXXHlWFAYmt9tFLmSNyiiWl35JPjU7Wz5wC9xQHP/o3ZsIT23/UrI0xBZxtTA0eqoeNRERAUN5kARqhKM4UMWyp4ss7+gA69B6zO58HGu/8ZPVn7zQ6yhSrMSTU03DOl3z05koS5YDNLBDKv903jeNO54j31OMlNXht7ugLTP+DNO35vTitzUvxzvOCpVAGuqoYABfATweVMYRUYf+3m6ypBlEC3k3Z2WLaez2FFEfIZXikhVzjWrxiaKfMdzc2XRgr8Ea3KxPmOeYN4gULGZXQaZJ37xQKTRyAkCbt0G/xi2L4q5bDP9NuvRjeijKGtyarshIpOdb9nTEVm8C43+H3mq2Y9Dwtv9dl5DoNYcJjJMiJv1hbldthlInPTqo=
+  gem: iyzipay
+  on:
+    tags: true
+    repo: iyzico/iyzipay-ruby
+  skip_cleanup: true
