@@ -5,6 +5,7 @@ module Iyzipay
       EUR = 'EUR'
       USD = 'USD'
       GBP = 'GBP'
+      IRR = 'IRR'
     end
   end
 end
