@@ -9,3 +9,4 @@
 Gemfile.lock
 .Gemfile.lock
 tags
+gemfiles/*.lock
