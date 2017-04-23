@@ -3,7 +3,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 Gem::Specification.new do |s|
   s.name                  = 'iyzipay'
-  s.version               = '1.0.36'
+  s.version               = '1.1.0'
   s.platform              = Gem::Platform::RUBY
   s.required_ruby_version = '>= 2.4.0'
   s.summary               = %q{iyzipay api ruby client}
