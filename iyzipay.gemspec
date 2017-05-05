@@ -3,9 +3,9 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 Gem::Specification.new do |s|
   s.name                  = 'iyzipay'
-  s.version               = '1.0.36'
+  s.version               = '1.1.0'
   s.platform              = Gem::Platform::RUBY
-  s.required_ruby_version = '>= 1.9.3'
+  s.required_ruby_version = '>= 2.4.0'
   s.summary               = %q{iyzipay api ruby client}
   s.description           = %q{iyzipay api ruby client. You can sign up for an iyzico account at https://iyzico.com}
   s.authors               = ['Iyzico']
@@ -15,7 +15,7 @@ Gem::Specification.new do |s|
   s.homepage              = 'http://rubygems.org/gems/iyzipay'
   s.license               = 'MIT'
 
-  s.add_runtime_dependency 'rest-client', '~> 1.8', '>= 1.8.0'
+  s.add_runtime_dependency 'rest-client', '~> 2.0', '>= 2.0.1'
   s.add_development_dependency 'rspec', '~> 3.3', '>= 3.3.0'
   s.add_development_dependency 'rspec-rails', '~> 3.3', '>= 3.3.0'
 
