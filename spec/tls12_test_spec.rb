@@ -10,12 +10,7 @@ RSpec.describe 'Iyzipay' do
 
   it 'should test tls 1.2 support' do
     api_test = Iyzipay::Model::ApiTest.new.retrieve(@options)
-    begin
-      api_test = JSON.parse(api_test)
-      expect(api_test['status']).to eq('success')
-    rescue
-      $stderr.puts 'oops'
-      raise
-    end
+    api_test = JSON.parse(api_test)
+    expect(api_test['status']).to eq('success')
   end
 end
