@@ -9,6 +9,10 @@ You can sign up for an iyzico account at https://iyzico.com
 * Ruby 1.9.3 or newer
 * rest-client
 
+## Note
+
+Ruby 1.9.3 will not be supported in March 2018 for TLS 1.2 migration. Please upgrade your Ruby version to minimum 2.0.0. If you have any questions, please open an issue on Github or contact us at integration@iyzico.com.
+
 # Installation
 
     gem install iyzipay
