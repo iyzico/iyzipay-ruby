@@ -31,7 +31,7 @@ RSpec.describe 'Iyzipay' do
       expect(cancel['paymentId']).to eq(payment['paymentId'])
       expect(cancel['price']).to eq(1.10000000)
       expect(cancel['currency']).to eq('TRY')
-      expect(cancel['authCode']).to eq('mock00001iyziauthcd')
+      expect(cancel['authCode']).not_to be_nil
     rescue
       $stderr.puts 'oops'
       raise
