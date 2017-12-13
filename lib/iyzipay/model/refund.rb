@@ -13,6 +13,8 @@ module Iyzipay
             append_price(:price, request[:price]).
             append(:ip, request[:ip]).
             append(:currency, request[:currency]).
+            append(:reason, request[:reason]).
+            append(:description, request[:description]).
             get_request_string
       end
     end
