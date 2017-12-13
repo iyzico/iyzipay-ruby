@@ -18,7 +18,9 @@ RSpec.describe 'Iyzipay' do
         locale: Iyzipay::Model::Locale::TR,
         conversationId: '123456789',
         paymentId: payment['paymentId'],
-        ip: '85.34.78.112'
+        ip: '85.34.78.112',
+        reason: 'other',
+        description: 'customer requested for default sample'
     }
     cancel = Iyzipay::Model::Cancel.new.create(request, @options)
     begin

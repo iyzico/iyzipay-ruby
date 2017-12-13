@@ -21,7 +21,9 @@ RSpec.describe 'Iyzipay' do
         paymentTransactionId: payment['itemTransactions'][0]['paymentTransactionId'],
         price: '0.2',
         currency: Iyzipay::Model::Currency::TRY,
-        ip: '85.34.78.112'
+        ip: '85.34.78.112',
+        reason: 'other',
+        description: 'customer requested for default sample'
     }
     refund = Iyzipay::Model::Refund.new.create(request, @options)
     begin
