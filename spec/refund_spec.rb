@@ -51,7 +51,7 @@ RSpec.describe 'Iyzipay' do
         price: '0.2',
         currency: Iyzipay::Model::Currency::TRY,
         ip: '85.34.78.112',
-        reason: 'other',
+        reason: Iyzipay::Model::RefundReason::OTHER,
         description: 'customer requested for default sample'
     }
     refund = Iyzipay::Model::Refund.new.create(request, @options)

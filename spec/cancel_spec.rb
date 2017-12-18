@@ -46,7 +46,7 @@ RSpec.describe 'Iyzipay' do
         conversationId: '123456789',
         paymentId: payment['paymentId'],
         ip: '85.34.78.112',
-        reason: 'other',
+        reason: Iyzipay::Model::RefundReason::OTHER,
         description: 'customer requested for default sample'
     }
     cancel = Iyzipay::Model::Cancel.new.create(request, @options)
