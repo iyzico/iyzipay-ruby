@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rest-client', '~> 1.8.0'
+gem 'rest-client'
 gem 'rack', '1.6.4'
 
 group :development, :local_development do
