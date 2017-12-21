@@ -1,10 +1,5 @@
 source 'http://rubygems.org'
 
-gem 'rest-client', '~> 2.0'
-gem 'rack', '1.6.4'
+git_source(:github) { |repo_name| "https://github.com/#{repo_name}" }
 
-group :development, :local_development do
-  gem 'rspec'
-  gem 'rspec-rails'
-  gem 'nokogiri', '1.8.1'
-end
+gemspec
