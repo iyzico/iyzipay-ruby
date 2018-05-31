@@ -208,7 +208,7 @@ RSpec.describe 'Iyzipay' do
   end
 
   it 'should retrieve payment' do
-    # This test needs manual payment from Pecco on sandbox environment. So it does not contain any assertions.
+    # This test needs manual 3ds payment on sandbox environment. So it does not contain any assertions.
     request = {
         locale: Iyzipay::Model::Locale::TR,
         conversationId: '123456789',
