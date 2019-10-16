@@ -10,7 +10,7 @@ module Iyzipay
       def to_pki_string(request)
         PkiBuilder.new.append_super(super).
             append(:subMerchantKey, request[:subMerchantKey]).
-            append(:callbackURL, request[:callbackURL]).
+            append(:callbackUrl, request[:callbackUrl]).
             append_price(:price, request[:price]).
             get_request_string
       end
