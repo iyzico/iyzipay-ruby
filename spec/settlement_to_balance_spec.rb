@@ -12,7 +12,7 @@ RSpec.describe 'Iyzipay' do
   it 'should make settlement to balance' do
     request = {
         subMerchantKey: 'qGtsC8HgrrJlH3acAcxT0M3ls+U=',
-        callbackURL: 'https://merchantwebsite.com',
+        callbackUrl: 'https://merchantwebsite.com',
         price: '10',
         locale: 'tr',
         conversationId: '123456'
