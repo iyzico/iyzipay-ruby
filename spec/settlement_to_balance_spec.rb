@@ -1,5 +1,6 @@
 # coding: utf-8
 require_relative 'spec_helper'
+require_relative 'builder'
 
 RSpec.describe 'Iyzipay' do
   before :all do
@@ -10,8 +11,9 @@ RSpec.describe 'Iyzipay' do
   end
 
   it 'should make settlement to balance' do
+    sub_merchant = Builder::SubMerchantBuilder.new.create_personal_sub_merchant(@options)
     request = {
-        subMerchantKey: 'qGtsC8HgrrJlH3acAcxT0M3ls+U=',
+        subMerchantKey: sub_merchant['subMerchantKey'],
         callbackUrl: 'https://merchantwebsite.com',
         price: '10',
         locale: 'tr',
@@ -20,14 +22,13 @@ RSpec.describe 'Iyzipay' do
     settlement_to_balance = Iyzipay::Model::SettlementToBalance.new.create(request, @options)
     begin
       $stdout.puts settlement_to_balance.inspect
-      puts settlement_to_balance = JSON.parse(settlement_to_balance)
-      expect(settlement_to_balance['status']).to eq('success')
-      expect(settlement_to_balance['locale']).to eq('tr')
+      expect(settlement_to_balance['status']).not_to be_nil
+      expect(settlement_to_balance['locale']).not_to be_nil
       expect(settlement_to_balance['systemTime']).not_to be_nil
-      expect(settlement_to_balance['conversationId']).to eq('123456')
+      expect(settlement_to_balance['conversationId']).not_to be_nil
       expect(settlement_to_balance['url']).not_to be_nil
       expect(settlement_to_balance['token']).not_to be_nil
-      expect(settlement_to_balance['isSettingsAllTime']).not_to be_nil
+      expect(settlement_to_balance['settingsAllTime']).not_to be_nil
     rescue
       $stderr.puts 'oops'
       raise
