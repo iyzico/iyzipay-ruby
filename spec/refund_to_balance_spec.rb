@@ -1,5 +1,6 @@
 # coding: utf-8
 require_relative 'spec_helper'
+require_relative 'builder'
 
 RSpec.describe 'Iyzipay' do
   before :all do
@@ -9,13 +10,13 @@ RSpec.describe 'Iyzipay' do
     @options.base_url = SpecOptions::BASE_URL
   end
 
-  it 'should refund to balance payment' do
+  it 'should refund to balance' do
     # create payment
-
+    payment =  Builder::PaymentBuilder.new.create_standard_listing_payment(@options)
     request = {
         locale: Iyzipay::Model::Locale::TR,
         conversationId: '123456789',
-        paymentId: '11661247',
+        paymentId: payment['paymentId'],
         callbackUrl: 'https://merchanturl.com'
     }
     refundToBalance = Iyzipay::Model::RefundToBalance.new.create(request, @options)
