@@ -2,17 +2,17 @@ lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 Gem::Specification.new do |s|
-  s.name                  = 'iyzipay'
-  s.version               = '1.0.46.7'
+  s.name                  = 'iyzipay-subscriptions'
+  s.version               = '1.0.0'
   s.platform              = Gem::Platform::RUBY
   s.required_ruby_version = '>= 1.9.3'
-  s.summary               = %q{iyzipay api ruby client}
-  s.description           = %q{iyzipay api ruby client. You can sign up for an iyzico account at https://iyzico.com}
-  s.authors               = ['Iyzico']
-  s.email                 = 'iyzico-ci@iyzico.com'
+  s.summary               = %q{iyzipay api ruby client for subscriptions feature}
+  s.description           = %q{iyzipay api ruby client for subscriptions feature. You can sign up for an iyzico account at https://iyzico.com}
+  s.authors               = ['Iyzico', 'Mehmet Celik']
+  s.email                 = 'mehmetcelik4@gmail.com'
   s.files                 = `git ls-files`.split("\n")
   s.test_files            = `git ls-files -- {spec}/*`.split("\n")
-  s.homepage              = 'http://rubygems.org/gems/iyzipay'
+  s.homepage              = 'http://rubygems.org/gems/iyzipay-subscriptions'
   s.license               = 'MIT'
 
   s.add_runtime_dependency 'rack', '~> 2.0'
