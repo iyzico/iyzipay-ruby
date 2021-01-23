@@ -10,3 +10,4 @@ tmp/*
 Gemfile.lock
 .Gemfile.lock
 tags
+*.gem

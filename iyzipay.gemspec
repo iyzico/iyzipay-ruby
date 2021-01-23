@@ -3,7 +3,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 Gem::Specification.new do |s|
   s.name                  = 'iyzipay-subscriptions'
-  s.version               = '1.0.0'
+  s.version               = '1.0.1'
   s.platform              = Gem::Platform::RUBY
   s.required_ruby_version = '>= 1.9.3'
   s.summary               = %q{iyzipay api ruby client for subscriptions feature}
@@ -12,7 +12,7 @@ Gem::Specification.new do |s|
   s.email                 = 'mehmetcelik4@gmail.com'
   s.files                 = `git ls-files`.split("\n")
   s.test_files            = `git ls-files -- {spec}/*`.split("\n")
-  s.homepage              = 'http://rubygems.org/gems/iyzipay-subscriptions'
+  s.homepage              = 'https://github.com/MehmetCelik4/iyzipay-ruby'
   s.license               = 'MIT'
 
   s.add_runtime_dependency 'rack', '~> 2.0'
